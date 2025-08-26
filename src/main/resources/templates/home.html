@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Главная страница - Records App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        .message {
+            background: #e8f5e8;
+            padding: 15px;
+            border-left: 4px solid #4caf50;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .features {
+            margin: 20px 0;
+        }
+        .features li {
+            margin: 10px 0;
+            padding: 8px;
+            background: #f9f9f9;
+            border-radius: 4px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin: 10px 5px;
+        }
+        .btn:hover {
+            background: #2980b9;
+        }
+        .btn-login {
+            background: #27ae60;
+        }
+        .btn-login:hover {
+            background: #219a52;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Добро пожаловать в Records App! 🎵</h1>
+        
+        <div class="message">
+            <strong>Сообщение системы:</strong>
+            <span th:text="${message}">Тестовое сообщение</span>
+        </div>
+
+        <div class="features">
+            <h2>Возможности приложения:</h2>
+            <ul>
+                <li>✅ Управление коллекцией записей</li>
+                <li>✅ Безопасная аутентификация пользователей</li>
+                <li>✅ Поддержка русского языка (UTF-8)</li>
+                <li>✅ Загрузка файлов (до 10MB)</li>
+                <li>✅ Работа с PostgreSQL базой данных</li>
+                <li>✅ Красивые Thymeleaf шаблоны</li>
+            </ul>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <a th:href="@{/login}" class="btn btn-login">Войти в систему</a>
+            <a th:href="@{/public/about}" class="btn">О проекте</a>
+        </div>
+
+        <div style="margin-top: 30px; padding: 15px; background: #f8f9fa; border-radius: 4px;">
+            <h3>Технологии проекта:</h3>
+            <p>Spring Boot 3, Spring Security, PostgreSQL, Thymeleaf, Hibernate</p>
+        </div>
+    </div>
+</body>
+</html>
