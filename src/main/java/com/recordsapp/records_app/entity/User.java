@@ -43,7 +43,7 @@ public class User {
      * nullable = false - NOT NULL в БД.
      */
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 60)
     @NotBlank(message = "Пароль не может быть пустым")
     private String password;
 

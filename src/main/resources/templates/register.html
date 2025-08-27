@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Вход в систему - Records App</title>
+    <title>Регистрация - Records App</title>
     <style>
+        /* Стили можно вынести в отдельный CSS файл, но для наглядности оставим здесь */
         body {
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             margin: 0;
             padding: 0;
             display: flex;
@@ -15,7 +16,7 @@
             align-items: center;
             min-height: 100vh;
         }
-        .login-container {
+        .register-container {
             background: white;
             padding: 40px;
             border-radius: 10px;
@@ -38,7 +39,8 @@
             font-weight: bold;
         }
         input[type="text"],
-        input[type="password"] {
+        input[type="password"],
+        input[type="email"] {
             width: 100%;
             padding: 12px;
             border: 2px solid #ddd;
@@ -46,8 +48,7 @@
             font-size: 16px;
             box-sizing: border-box;
         }
-        input[type="text"]:focus,
-        input[type="password"]:focus {
+        input:focus {
             border-color: #3498db;
             outline: none;
         }
@@ -94,61 +95,39 @@
         .back-link a:hover {
             text-decoration: underline;
         }
-        .test-users {
-            margin-top: 20px;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 5px;
-            font-size: 14px;
-        }
-        .test-users h3 {
-            margin-top: 0;
-            color: #555;
-        }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <h1>Вход в систему 🔐</h1>
-
-        <!-- Сообщение об успешной регистрации -->
-        <div th:if="${param.registered}" class="success">
-            Регистрация прошла успешно! Теперь вы можете войти.
-        </div>
+    <div class="register-container">
+        <h1>Регистрация 📝</h1>
 
         <!-- Сообщение об ошибке -->
-        <div th:if="${param.error}" class="error">
-            Неправильный логин или пароль!
+        <div th:if="${error}" class="error" th:text="${error}">
+            Ошибка регистрации!
         </div>
 
-        <!-- Сообщение об успешном выходе -->
-        <div th:if="${param.logout}" class="success">
-            Вы успешно вышли из системы!
-        </div>
-
-        <form th:action="@{/login}" method="post">
+        <form th:action="@{/register}" method="post">
             <div class="form-group">
                 <label for="username">Логин:</label>
-                <input type="text" id="username" name="username" required placeholder="Введите ваш логин">
+                <input type="text" id="username" name="username" required placeholder="Придумайте логин">
             </div>
 
             <div class="form-group">
                 <label for="password">Пароль:</label>
-                <input type="password" id="password" name="password" required placeholder="Введите ваш пароль">
+                <input type="password" id="password" name="password" required placeholder="Придумайте пароль">
             </div>
 
-            <button type="submit">Войти</button>
+            <div class="form-group">
+                <label for="email">Email (необязательно):</label>
+                <input type="email" id="email" name="email" placeholder="Ваш email">
+            </div>
+
+            <button type="submit">Зарегистрироваться</button>
         </form>
 
         <div class="back-link">
-            <a th:href="@{/}">← Вернуться на главную</a> | 
-            <a th:href="@{/register}">Создать аккаунт</a>
-        </div>
-
-        <div class="test-users">
-            <h3>Тестовые пользователи:</h3>
-            <p><strong>Админ:</strong> admin / admin</p>
-            <p><strong>Пользователь:</strong> user / password</p>
+            <a th:href="@{/login}">Уже есть аккаунт? Войти</a> | 
+            <a th:href="@{/}">На главную</a>
         </div>
     </div>
 </body>
