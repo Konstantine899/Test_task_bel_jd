@@ -4,11 +4,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -20,9 +17,10 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(authz -> authz
-                .requestMatchers("/css/**", "/js/**", "/images/**","/webjars/**").permitAll()
+                .requestMatchers("/css/**", "/js/**", "/images/**","/webjars/**", "/uploads/*").permitAll()
                 .requestMatchers("/", "/home", "/public/**").permitAll()
                 .requestMatchers("/login", "/register").permitAll()
+                .requestMatchers("/records/**").authenticated()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 // Все остальные запросы требуют аутентификации
                 .anyRequest().authenticated()

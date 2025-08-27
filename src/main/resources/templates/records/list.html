@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мои записи - Records App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .btn {
+            padding: 10px 20px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background: #2980b9;
+        }
+        .btn-danger {
+            background: #e74c3c;
+        }
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+        .btn-success {
+            background: #27ae60;
+        }
+        .btn-success:hover {
+            background: #219a52;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background: #343a40;
+            color: white;
+        }
+        tr:hover {
+            background: #f5f5f5;
+        }
+        .thumbnail {
+            max-width: 100px;
+            max-height: 100px;
+        }
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .pagination {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .pagination a {
+            margin: 0 5px;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            text-decoration: none;
+            color: #3498db;
+        }
+        .pagination a.active {
+            background: #3498db;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Мои записи 📝</h1>
+            <a th:href="@{/records/create}" class="btn btn-success">Добавить запись</a>
+        </div>
+
+        <!-- Сообщения об успехе/ошибке -->
+        <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+        <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Число</th>
+                    <th>Текст</th>
+                    <th>Дата</th>
+                    <th>Изображение</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="record : ${recordsPage.content}">
+                    <td th:text="${record.number}">0</td>
+                    <td th:text="${record.text}">Текст записи</td>
+                    <td th:text="${#temporals.format(record.date, 'dd.MM.yyyy')}">01.01.2023</td>
+                    <td>
+                        <img th:if="${record.imagePath}" 
+                             th:src="@{'/uploads/' + ${record.imagePath}}" 
+                             class="thumbnail" alt="Изображение записи">
+                        <span th:unless="${record.imagePath}">Нет изображения</span>
+                    </td>
+                    <td>
+                        <a th:href="@{'/records/edit/' + ${record.id}}" class="btn">Редактировать</a>
+                        <form th:action="@{'/records/delete/' + ${record.id}}" method="post" style="display: inline;">
+                            <button type="submit" class="btn btn-danger" 
+                                    onclick="return confirm('Вы уверены, что хотите удалить эту запись?')">
+                                Удалить
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                <tr th:if="${recordsPage.empty}">
+                    <td colspan="5" style="text-align: center;">Записей не найдено</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Пагинация -->
+        <div class="pagination" th:if="${recordsPage.totalPages > 1}">
+            <a th:href="@{'/records?page=0&size=' + ${pageSize} + '&sort=' + ${sort}}"
+               th:class="${recordsPage.first} ? 'disabled' : ''">«</a>
+            
+            <a th:each="i : ${#numbers.sequence(0, recordsPage.totalPages - 1)}"
+               th:href="@{'/records?page=' + ${i} + '&size=' + ${pageSize} + '&sort=' + ${sort}}"
+               th:text="${i + 1}"
+               th:class="${i == recordsPage.number} ? 'active' : ''"></a>
+            
+            <a th:href="@{'/records?page=' + (recordsPage.totalPages - 1) + '&size=' + ${pageSize} + '&sort=' + ${sort}}"
+               th:class="${recordsPage.last} ? 'disabled' : ''">»</a>
+        </div>
+
+        <div style="margin-top: 20px;">
+            <a th:href="@{/dashboard}" class="btn">← Назад в панель управления</a>
+        </div>
+    </div>
+</body>
+</html>

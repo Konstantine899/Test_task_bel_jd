@@ -125,10 +125,8 @@
 
     <div class="nav">
         <a th:href="@{/dashboard}">Главная</a>
-        <a th:href="@{/records}">Мои записи</a>
-        <a th:href="@{/upload}">Загрузить файл</a>
+        <a th:href="@{/records}">Мои записи</a> 
         <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin}">Админ-панель</a>
-        <a th:href="@{/profile}">Профиль</a>
     </div>
 
     <div class="container">
@@ -156,8 +154,6 @@
             <h2>Быстрые действия</h2>
             <div>
                 <a th:href="@{/records/new}" class="btn">Добавить запись</a>
-                <a th:href="@{/upload}" class="btn">Загрузить файл</a>
-                <a th:href="@{/profile}" class="btn">Редактировать профиль</a>
             </div>
 
             <h2 style="margin-top: 30px;">Статус системы</h2>

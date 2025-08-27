@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${record.id != null} ? 'Редактирование записи' : 'Создание записи'">Форма записи - Records App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        input:focus,
+        textarea:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        .error {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        .btn {
+            padding: 10px 20px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .btn:hover {
+            background: #2980b9;
+        }
+        .btn-secondary {
+            background: #6c757d;
+        }
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        .thumbnail {
+            max-width: 200px;
+            max-height: 200px;
+            margin-top: 10px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 th:text="${record.id != null} ? 'Редактирование записи' : 'Создание новой записи'">
+            Форма записи
+        </h1>
+
+        <form th:action="${record.id != null} ? @{'/records/edit/' + ${record.id}} : @{/records/create}" 
+              method="post" enctype="multipart/form-data">
+            
+            <!-- Поле число -->
+            <div class="form-group">
+                <label for="number">Число *</label>
+                <input type="number" id="number" name="number" 
+                       th:value="${record.number}" required
+                       min="0" max="1000000">
+                <div th:if="${#fields.hasErrors('number')}" class="error" 
+                     th:errors="*{number}">Ошибка валидации</div>
+            </div>
+
+            <!-- Поле текст -->
+            <div class="form-group">
+                <label for="text">Текст *</label>
+                <textarea id="text" name="text" required
+                          th:text="${record.text}"></textarea>
+                <div th:if="${#fields.hasErrors('text')}" class="error" 
+                     th:errors="*{text}">Ошибка валидации</div>
+            </div>
+
+            <!-- Поле дата -->
+            <div class="form-group">
+                <label for="date">Дата *</label>
+                <input type="date" id="date" name="date" 
+                       th:value="${#temporals.format(record.date, 'yyyy-MM-dd')}" required>
+                <div th:if="${#fields.hasErrors('date')}" class="error" 
+                     th:errors="*{date}">Ошибка валидации</div>
+            </div>
+
+            <!-- Поле загрузки изображения -->
+            <div class="form-group">
+                <label for="imageFile">Изображение</label>
+                <input type="file" id="imageFile" name="imageFile" accept="image/*">
+                
+                <!-- Показать текущее изображение при редактировании -->
+                <img th:if="${record.imagePath}" 
+                     th:src="@{'/uploads/' + ${record.imagePath}}" 
+                     class="thumbnail" alt="Текущее изображение">
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn">
+                    <span th:text="${record.id != null} ? 'Обновить' : 'Создать'">Сохранить</span>
+                </button>
+                <a th:href="@{/records}" class="btn btn-secondary">Отмена</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

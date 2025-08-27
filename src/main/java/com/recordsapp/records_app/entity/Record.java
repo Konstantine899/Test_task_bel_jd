@@ -24,19 +24,14 @@ public class Record {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Название записи не может быть пустым")
-    @Size(max = 255, message = "Название записи не должно превышать 255 символов")
-    private String title;
+     @NotBlank(message = "Текст записи не может быть пустым")
+    @Size(max = 1000, message = "Текст записи не должен превышать 1000 символов")
+    @Column(name = "text", nullable = false)
+    private String text;
 
-    /**
-     * @Lob - аннотация для больших текстовых полей.
-     * В PostgreSQL маппится на тип TEXT.
-     */
-    @Lob
-    private String description;
-
-    @Column(name = "number_value")
-    private Double numberValue;
+    @NotNull(message = "Число обязательно для заполнения")
+    @Column(name = "number_value", nullable = false)
+    private Integer number;
 
     /**
      * Поле для даты записи.
@@ -44,7 +39,7 @@ public class Record {
      */
     @Column(name = "record_date")
     @NotNull(message = "Дата записи обязательна для заполнения")
-    private LocalDate recordDate;
+    private LocalDate date;
 
     @Column(name = "image_path")
     private String imagePath;
@@ -72,11 +67,10 @@ public class Record {
     public Record() {
     }
 
-    public Record(String title, String description, Double numberValue, LocalDate recordDate) {
-        this.title = title;
-        this.description = description;
-        this.numberValue = numberValue;
-        this.recordDate = recordDate;
+    public Record(String text, Integer number, LocalDate date) {
+        this.text = text;
+        this.number = number;
+        this.date = date;
     }
 
     // Геттеры и сеттеры
@@ -88,37 +82,21 @@ public class Record {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+     public String getText() {
+        return text;
+    }
+ public void setText(String text) {
+        this.text = text;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public Integer getNumber() {
+        return number;
     }
 
-    public String getDescription() {
-        return description;
+    public void setNumber(Integer number) {
+        this.number = number;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Double getNumberValue() {
-        return numberValue;
-    }
-
-    public void setNumberValue(Double numberValue) {
-        this.numberValue = numberValue;
-    }
-
-    public LocalDate getRecordDate() {
-        return recordDate;
-    }
-
-    public void setRecordDate(LocalDate recordDate) {
-        this.recordDate = recordDate;
-    }
 
     public String getImagePath() {
         return imagePath;
@@ -151,4 +129,8 @@ public class Record {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }  
+
+    public void setDate(LocalDate date) {
+    this.date = date;
+}
 }
