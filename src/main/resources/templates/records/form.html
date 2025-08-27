@@ -98,26 +98,26 @@
                 <input type="number" id="number" name="number" 
                        th:value="${record.number}" required
                        min="0" max="1000000">
-                <div th:if="${#fields.hasErrors('number')}" class="error" 
-                     th:errors="*{number}">Ошибка валидации</div>
+                <!-- <div th:if="${#fields.hasErrors('number')}" class="error" 
+                     th:errors="*{number}">Ошибка валидации</div> -->
             </div>
 
             <!-- Поле текст -->
             <div class="form-group">
                 <label for="text">Текст *</label>
                 <textarea id="text" name="text" required
-                          th:text="${record.text}"></textarea>
-                <div th:if="${#fields.hasErrors('text')}" class="error" 
-                     th:errors="*{text}">Ошибка валидации</div>
+                          th:text="${text}"></textarea>
+                <!-- <div th:if="${#fields.hasErrors('text')}" class="error" 
+                     th:errors="*{text}">Ошибка валидации</div> -->
             </div>
 
             <!-- Поле дата -->
             <div class="form-group">
                 <label for="date">Дата *</label>
                 <input type="date" id="date" name="date" 
-                       th:value="${#temporals.format(record.date, 'yyyy-MM-dd')}" required>
-                <div th:if="${#fields.hasErrors('date')}" class="error" 
-                     th:errors="*{date}">Ошибка валидации</div>
+                       th:value="${#temporals.format(date, 'yyyy-MM-dd')}" required>
+                <!-- <div th:if="${#fields.hasErrors('date')}" class="error" 
+                     th:errors="*{date}">Ошибка валидации</div> -->
             </div>
 
             <!-- Поле загрузки изображения -->
@@ -125,7 +125,6 @@
                 <label for="imageFile">Изображение</label>
                 <input type="file" id="imageFile" name="imageFile" accept="image/*">
                 
-                <!-- Показать текущее изображение при редактировании -->
                 <img th:if="${record.imagePath}" 
                      th:src="@{'/uploads/' + ${record.imagePath}}" 
                      class="thumbnail" alt="Текущее изображение">
