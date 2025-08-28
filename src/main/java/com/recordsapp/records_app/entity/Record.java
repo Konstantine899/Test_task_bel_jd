@@ -1,16 +1,18 @@
 package com.recordsapp.records_app.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
 
 /**
  * Сущность (Entity) для таблицы "records".
@@ -19,18 +21,21 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "records")
 @EntityListeners(AuditingEntityListener.class) // Для @CreatedDate и @LastModifiedDate
+@Data 
 public class Record {
-  @Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-     @NotBlank(message = "Текст записи не может быть пустым")
+    @NotBlank(message = "Текст записи не может быть пустым")
     @Size(max = 1000, message = "Текст записи не должен превышать 1000 символов")
     @Column(name = "text", nullable = false)
     private String text;
 
     @NotNull(message = "Число обязательно для заполнения")
     @Column(name = "number_value", nullable = false)
+    @Min(value = 0, message = "Число должно быть не меньше 0")
+    @Max(value = 1000000, message = "Число должно быть не больше 1000000")
     private Integer number;
 
     /**
@@ -72,65 +77,4 @@ public class Record {
         this.number = number;
         this.date = date;
     }
-
-    // Геттеры и сеттеры
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-     public String getText() {
-        return text;
-    }
- public void setText(String text) {
-        this.text = text;
-    }
-
-    public Integer getNumber() {
-        return number;
-    }
-
-    public void setNumber(Integer number) {
-        this.number = number;
-    }
-
-
-    public String getImagePath() {
-        return imagePath;
-    }
-
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }  
-
-    public void setDate(LocalDate date) {
-    this.date = date;
-}
-}
+} 

@@ -50,10 +50,27 @@ public class RecordService {
         // Устанавливаем связь с пользователем
         record.setUser(user);
         
+        // Если это редактирование существующей записи, сохраняем старое изображение
+        String oldImagePath = null;
+        if (record.getId() != null) {
+            Optional<Record> existingRecord = recordRepository.findById(record.getId());
+            if (existingRecord.isPresent()) {
+                oldImagePath = existingRecord.get().getImagePath();
+            }
+        }
+        
         // Обработка загрузки изображения
         if (imageFile != null && !imageFile.isEmpty()) {
             String fileName = saveImage(imageFile);
             record.setImagePath(fileName);
+            
+            // Если загружено новое изображение, удаляем старое
+            if (oldImagePath != null) {
+                deleteImage(oldImagePath);
+            }
+        } else if (oldImagePath != null) {
+            // Если изображение не загружено, сохраняем старое
+            record.setImagePath(oldImagePath);
         }
         
         return recordRepository.save(record);

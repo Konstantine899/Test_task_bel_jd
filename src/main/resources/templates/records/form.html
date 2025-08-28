@@ -81,6 +81,16 @@
             margin-top: 10px;
             display: block;
         }
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
     </style>
 </head>
 <body>
@@ -89,36 +99,39 @@
             Форма записи
         </h1>
 
+        <!-- Сообщения об ошибках -->
+        <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+
         <form th:action="${record.id != null} ? @{'/records/edit/' + ${record.id}} : @{/records/create}" 
               method="post" enctype="multipart/form-data">
             
-            <!-- Поле число -->
+            <!-- START: Исправленное поле число - используется th:field для правильной привязки -->
             <div class="form-group">
                 <label for="number">Число *</label>
-                <input type="number" id="number" name="number" 
-                       th:value="${record.number}" required
+                <input type="number" id="number" th:field="*{record.number}" required
                        min="0" max="1000000">
-                <!-- <div th:if="${#fields.hasErrors('number')}" class="error" 
-                     th:errors="*{number}">Ошибка валидации</div> -->
+                <div th:if="${#fields.hasErrors('record.number')}" class="error" 
+                     th:errors="*{record.number}"></div>
             </div>
+            <!-- END: Поле число исправлено -->
 
-            <!-- Поле текст -->
+            <!-- START: Исправленное поле текст - используется th:field для правильной привязки -->
             <div class="form-group">
                 <label for="text">Текст *</label>
-                <textarea id="text" name="text" required
-                          th:text="${text}"></textarea>
-                <!-- <div th:if="${#fields.hasErrors('text')}" class="error" 
-                     th:errors="*{text}">Ошибка валидации</div> -->
+                <textarea id="text" th:field="*{record.text}" required></textarea>
+                <div th:if="${#fields.hasErrors('record.text')}" class="error" 
+                     th:errors="*{record.text}"></div>
             </div>
+            <!-- END: Поле текст исправлено -->
 
-            <!-- Поле дата -->
+            <!-- START: Исправленное поле дата - используется th:field для правильной привязки -->
             <div class="form-group">
                 <label for="date">Дата *</label>
-                <input type="date" id="date" name="date" 
-                       th:value="${#temporals.format(date, 'yyyy-MM-dd')}" required>
-                <!-- <div th:if="${#fields.hasErrors('date')}" class="error" 
-                     th:errors="*{date}">Ошибка валидации</div> -->
+                <input type="date" id="date" th:field="*{record.date}" required>
+                <div th:if="${#fields.hasErrors('record.date')}" class="error" 
+                     th:errors="*{record.date}"></div>
             </div>
+            <!-- END: Поле дата исправлено -->
 
             <!-- Поле загрузки изображения -->
             <div class="form-group">

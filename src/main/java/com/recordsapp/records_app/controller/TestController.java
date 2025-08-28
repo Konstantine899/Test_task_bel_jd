@@ -3,6 +3,7 @@ package com.recordsapp.records_app.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Controller
@@ -21,5 +22,11 @@ public class TestController {
     @GetMapping("/dashboard")
     public String dashboard() {
         return "dashboard";
+    }
+
+    @GetMapping("/test")
+    @ResponseBody
+    public String test() {
+        return "Records App работает корректно! CRUD модуль готов к использованию.";
     }
 }

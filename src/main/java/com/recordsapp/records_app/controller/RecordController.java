@@ -17,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.validation.Valid;
-import java.io.IOException;
 import java.time.LocalDate;
 
 @Controller
@@ -74,23 +73,28 @@ public class RecordController {
     @PostMapping("/create")
     public String createRecord(
             @AuthenticationPrincipal User user,
-            @Valid @ModelAttribute Record record,
+            @Valid @ModelAttribute("record") Record record,
             BindingResult bindingResult,
             @RequestParam(value = "imageFile", required = false) MultipartFile imageFile,
-            RedirectAttributes redirectAttributes) {
+            RedirectAttributes redirectAttributes,
+            Model model) {
         
         if (bindingResult.hasErrors()) {
+            // Добавляем ошибки валидации в модель для отображения в форме
+            model.addAttribute("record", record);
             return "records/form";
         }
         
         try {
             recordService.saveRecord(user, record, imageFile);
             redirectAttributes.addFlashAttribute("success", "Запись успешно создана!");
+            return "redirect:/records";
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Ошибка при создании записи: " + e.getMessage());
+            // Возвращаемся к форме с сохраненными данными
+            model.addAttribute("record", record);
+            return "records/form";
         }
-        
-        return "redirect:/records";
     }
 
     /**
@@ -121,12 +125,16 @@ public class RecordController {
     public String updateRecord(
             @AuthenticationPrincipal User user,
             @PathVariable Long id,
-            @Valid @ModelAttribute Record record,
+            @Valid @ModelAttribute("record") Record record,
             BindingResult bindingResult,
             @RequestParam(value = "imageFile", required = false) MultipartFile imageFile,
-            RedirectAttributes redirectAttributes) {
+            RedirectAttributes redirectAttributes,
+            Model model) {
         
         if (bindingResult.hasErrors()) {
+            // Добавляем ошибки валидации в модель для отображения в форме
+            record.setId(id); // Сохраняем ID для корректного отображения формы
+            model.addAttribute("record", record);
             return "records/form";
         }
         
@@ -134,11 +142,14 @@ public class RecordController {
             record.setId(id); // Убедимся, что ID установлен
             recordService.saveRecord(user, record, imageFile);
             redirectAttributes.addFlashAttribute("success", "Запись успешно обновлена!");
+            return "redirect:/records";
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Ошибка при обновлении записи: " + e.getMessage());
+            // Возвращаемся к форме с сохраненными данными
+            record.setId(id);
+            model.addAttribute("record", record);
+            return "records/form";
         }
-        
-        return "redirect:/records";
     }
 
     /**
