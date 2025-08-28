@@ -17,6 +17,10 @@
             color: white;
             padding: 20px;
             text-align: center;
+            position: relative;
+        }
+        .header h1 {
+            margin: 0;
         }
         .nav {
             background: #343a40;
@@ -106,28 +110,15 @@
             background: #c0392b;
         }
         .user-info {
-            float: right;
+            position: absolute;
+            top: 20px;
+            right: 20px;
             color: white;
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>Панель управления 🎵</h1>
-        <div class="user-info">
-            Вы вошли как: <span sec:authentication="name">Пользователь</span>
-            | 
-            <form th:action="@{/logout}" method="post" style="display: inline;">
-                <button type="submit" class="btn btn-danger">Выйти</button>
-            </form>
-        </div>
-    </div>
-
-    <div class="nav">
-        <a th:href="@{/dashboard}">Главная</a>
-        <a th:href="@{/records}">Мои записи</a> 
-        <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin}">Админ-панель</a>
-    </div>
+    <header th:replace="~{fragments/nav :: nav}"></header>
 
     <div class="container">
         <div class="welcome">
@@ -153,7 +144,7 @@
         <div class="features">
             <h2>Быстрые действия</h2>
             <div>
-                <a th:href="@{/records/new}" class="btn">Добавить запись</a>
+                <a th:href="@{/records/create}" class="btn">Добавить запись</a>
             </div>
 
             <h2 style="margin-top: 30px;">Статус системы</h2>
@@ -166,5 +157,6 @@
             </ul>
         </div>
     </div>
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
 </body>
 </html>

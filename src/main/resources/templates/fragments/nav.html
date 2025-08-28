@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru" 
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body th:fragment="nav">
+    <div class="header">
+        <h1>Панель управления 🎵</h1>
+        <div class="user-info">
+            Вы вошли как: <span sec:authentication="name">Пользователь</span>
+            | 
+            <form th:action="@{/logout}" method="post" style="display: inline;">
+                <button type="submit" class="btn btn-danger">Выйти</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="nav">
+        <a th:href="@{/dashboard}">Главная</a>
+        <a th:href="@{/records}">Мои записи</a> 
+        <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin}">Админ-панель</a>
+    </div>
+</body>
+</html>
