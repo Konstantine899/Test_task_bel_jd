@@ -10,6 +10,7 @@ import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -27,6 +28,11 @@ public class Record {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Заголовок не может быть пустым")
+    @Size(max = 255, message = "Заголовок не должен превышать 255 символов")
+    @Column(name = "title", nullable = false)
+    private String title;
+
     @NotBlank(message = "Текст записи не может быть пустым")
     @Size(max = 1000, message = "Текст записи не должен превышать 1000 символов")
     @Column(name = "text", nullable = false)
@@ -42,7 +48,8 @@ public class Record {
      * Поле для даты записи.
      * @NotNull - валидация: поле не должно быть null.
      */
-    @Column(name = "record_date")
+    @Column(name = "date")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @NotNull(message = "Дата записи обязательна для заполнения")
     private LocalDate date;
 
@@ -72,7 +79,8 @@ public class Record {
     public Record() {
     }
 
-    public Record(String text, Integer number, LocalDate date) {
+    public Record(String title, String text, Integer number, LocalDate date) {
+        this.title = title;
         this.text = text;
         this.number = number;
         this.date = date;

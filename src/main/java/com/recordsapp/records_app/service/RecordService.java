@@ -18,12 +18,17 @@ import java.nio.file.StandardCopyOption;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Service
 @Transactional
 public class RecordService {
 
     private final RecordRepository recordRepository;
     private final Path uploadsDir = Paths.get("./uploads");
+    private static final Logger logger = LoggerFactory.getLogger(RecordService.class);
+
 
     @Autowired
     public RecordService(RecordRepository recordRepository) {
@@ -47,8 +52,13 @@ public class RecordService {
      * Сохраняет новую или обновляет существующую запись
      */
     public Record saveRecord(User user, Record record, MultipartFile imageFile) throws IOException {
-        // Устанавливаем связь с пользователем
-        record.setUser(user);
+        logger.info("Начинаем сохранение записи для пользователя: {}", user.getUsername());
+
+        try {
+            // Устанавливаем связь с пользователем
+            record.setUser(user);
+            logger.debug("Установлена связь с пользователем: {}", user.getId());
+            
         
         // Если это редактирование существующей записи, сохраняем старое изображение
         String oldImagePath = null;
@@ -72,9 +82,17 @@ public class RecordService {
             // Если изображение не загружено, сохраняем старое
             record.setImagePath(oldImagePath);
         }
-        
-        return recordRepository.save(record);
+            Record savedRecord = recordRepository.save(record);
+            logger.info("Запись успешно сохранена с ID: {}", savedRecord.getId());
+            return savedRecord;
+            
+        } catch (Exception e) {
+            logger.error("Ошибка при сохранении записи: {}", e.getMessage(), e);
+            throw e;
+        }
     }
+        
+    
 
     /**
      * Находит запись по ID, если она принадлежит пользователю
