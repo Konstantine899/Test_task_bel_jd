@@ -99,13 +99,11 @@
             Форма записи
         </h1>
 
-        <!-- Сообщения об ошибках -->
         <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
 
         <form th:action="${record.id != null} ? @{'/records/edit/' + ${record.id}} : @{/records/create}" 
               method="post" enctype="multipart/form-data">
             
-            <!-- START: Исправленное поле число - используется th:field для правильной привязки -->
             <div class="form-group">
                 <label for="number">Число *</label>
                 <input type="number" id="number" th:field="*{record.number}" required
@@ -113,27 +111,21 @@
                 <div th:if="${#fields.hasErrors('record.number')}" class="error" 
                      th:errors="*{record.number}"></div>
             </div>
-            <!-- END: Поле число исправлено -->
 
-            <!-- START: Исправленное поле текст - используется th:field для правильной привязки -->
             <div class="form-group">
                 <label for="text">Текст *</label>
                 <textarea id="text" th:field="*{record.text}" required></textarea>
                 <div th:if="${#fields.hasErrors('record.text')}" class="error" 
                      th:errors="*{record.text}"></div>
             </div>
-            <!-- END: Поле текст исправлено -->
 
-            <!-- START: Исправленное поле дата - используется th:field для правильной привязки -->
             <div class="form-group">
                 <label for="date">Дата *</label>
                 <input type="date" id="date" th:field="*{record.date}" required>
                 <div th:if="${#fields.hasErrors('record.date')}" class="error" 
                      th:errors="*{record.date}"></div>
             </div>
-            <!-- END: Поле дата исправлено -->
 
-            <!-- Поле загрузки изображения -->
             <div class="form-group">
                 <label for="imageFile">Изображение</label>
                 <input type="file" id="imageFile" name="imageFile" accept="image/*">
