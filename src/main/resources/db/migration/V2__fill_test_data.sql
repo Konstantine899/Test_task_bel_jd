@@ -8,7 +8,7 @@ DO $$
 DECLARE
     user_count INTEGER;
     record_count INTEGER;
-    encrypted_password TEXT := '$2a$10$r8V6L5s2q1W9T3Y7U2VZb.ZZ8X3Y2V1W4R5T6Y7U8I9O0P'; -- password123
+    encrypted_password TEXT := '$2a$10$b7c1PwqWtS4gXw4NUo0teOcW5OUP0C7L6SshsJr6sVBXjDMdR.9eW'; -- password123
 BEGIN
     -- Проверяем количество пользователей и записей
     SELECT COUNT(*) INTO user_count FROM users;

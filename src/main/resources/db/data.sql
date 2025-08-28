@@ -4,23 +4,23 @@
 
 -- Вставляем тестовых пользователей (только если таблица пуста)
 INSERT INTO users (username, password, email, created_at) 
-SELECT 'иван_петров', '$2a$10$r8V6L5s2q1W9T3Y7U2VZb.ZZ8X3Y2V1W4R5T6Y7U8I9O0P', 'иван_петров@example.com', NOW() - INTERVAL '30 days'
+SELECT 'иван_петров', '$2a$10$b7c1PwqWtS4gXw4NUo0teOcW5OUP0C7L6SshsJr6sVBXjDMdR.9eW', 'иван_петров@example.com', NOW() - INTERVAL '30 days'
 WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = 'иван_петров');
 
 INSERT INTO users (username, password, email, created_at) 
-SELECT 'мария_сидорова', '$2a$10$r8V6L5s2q1W9T3Y7U2VZb.ZZ8X3Y2V1W4R5T6Y7U8I9O0P', 'мария_сидорова@example.com', NOW() - INTERVAL '25 days'
+SELECT 'мария_сидорова', '$2a$10$b7c1PwqWtS4gXw4NUo0teOcW5OUP0C7L6SshsJr6sVBXjDMdR.9eW', 'мария_сидорова@example.com', NOW() - INTERVAL '25 days'
 WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = 'мария_сидорова');
 
 INSERT INTO users (username, password, email, created_at) 
-SELECT 'сергей_иванов', '$2a$10$r8V6L5s2q1W9T3Y7U2VZb.ZZ8X3Y2V1W4R5T6Y7U8I9O0P', 'сергей_иванов@example.com', NOW() - INTERVAL '20 days'
+SELECT 'сергей_иванов', '$2a$10$b7c1PwqWtS4gXw4NUo0teOcW5OUP0C7L6SshsJr6sVBXjDMdR.9eW', 'сергей_иванов@example.com', NOW() - INTERVAL '20 days'
 WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = 'сергей_иванов');
 
 INSERT INTO users (username, password, email, created_at) 
-SELECT 'анна_кузнецова', '$2a$10$r8V6L5s2q1W9T3Y7U2VZb.ZZ8X3Y2V1W4R5T6Y7U8I9O0P', 'анна_кузнецова@example.com', NOW() - INTERVAL '15 days'
+SELECT 'анна_кузнецова', '$2a$10$b7c1PwqWtS4gXw4NUo0teOcW5OUP0C7L6SshsJr6sVBXjDMdR.9eW', 'анна_кузнецова@example.com', NOW() - INTERVAL '15 days'
 WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = 'анна_кузнецова');
 
 INSERT INTO users (username, password, email, created_at) 
-SELECT 'дмитрий_смирнов', '$2a$10$r8V6L5s2q1W9T3Y7U2VZb.ZZ8X3Y2V1W4R5T6Y7U8I9O0P', 'дмитрий_смирнов@example.com', NOW() - INTERVAL '10 days'
+SELECT 'дмитрий_смирнов', '$2a$10$b7c1PwqWtS4gXw4NUo0teOcW5OUP0C7L6SshsJr6sVBXjDMdR.9eW', 'дмитрий_смирнов@example.com', NOW() - INTERVAL '10 days'
 WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = 'дмитрий_смирнов');
 
 -- Вставляем тестовые записи (только если таблица записей пуста)

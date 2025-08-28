@@ -9,11 +9,11 @@ BEGIN TRANSACTION;
 
 -- 1. Создание тестовых пользователей
 INSERT INTO users (username, password, email, created_at) VALUES
-('иван_петров', '$2a$10$r8V6L5s2q1W9T3Y7U2VZb.ZZ8X3Y2V1W4R5T6Y7U8I9O0P', 'иван_петров@example.com', NOW() - INTERVAL '30 days'),
-('мария_сидорова', '$2a$10$r8V6L5s2q1W9T3Y7U2VZb.ZZ8X3Y2V1W4R5T6Y7U8I9O0P', 'мария_сидорова@example.com', NOW() - INTERVAL '25 days'),
-('сергей_иванов', '$2a$10$r8V6L5s2q1W9T3Y7U2VZb.ZZ8X3Y2V1W4R5T6Y7U8I9O0P', 'сергей_иванов@example.com', NOW() - INTERVAL '20 days'),
-('анна_кузнецова', '$2a$10$r8V6L5s2q1W9T3Y7U2VZb.ZZ8X3Y2V1W4R5T6Y7U8I9O0P', 'анна_кузнецова@example.com', NOW() - INTERVAL '15 days'),
-('дмитрий_смирнов', '$2a$10$r8V6L5s2q1W9T3Y7U2VZb.ZZ8X3Y2V1W4R5T6Y7U8I9O0P', 'дмитрий_смирнов@example.com', NOW() - INTERVAL '10 days');
+('иван_петров', '$$2a$10$b7c1PwqWtS4gXw4NUo0teOcW5OUP0C7L6SshsJr6sVBXjDMdR.9eW', 'иван_петров@example.com', NOW() - INTERVAL '30 days'),
+('мария_сидорова', '$2a$10$b7c1PwqWtS4gXw4NUo0teOcW5OUP0C7L6SshsJr6sVBXjDMdR.9eW', 'мария_сидорова@example.com', NOW() - INTERVAL '25 days'),
+('сергей_иванов', '$2a$10$b7c1PwqWtS4gXw4NUo0teOcW5OUP0C7L6SshsJr6sVBXjDMdR.9eW', 'сергей_иванов@example.com', NOW() - INTERVAL '20 days'),
+('анна_кузнецова', '$2a$10$b7c1PwqWtS4gXw4NUo0teOcW5OUP0C7L6SshsJr6sVBXjDMdR.9eW', 'анна_кузнецова@example.com', NOW() - INTERVAL '15 days'),
+('дмитрий_смирнов', '$2a$10$b7c1PwqWtS4gXw4NUo0teOcW5OUP0C7L6SshsJr6sVBXjDMdR.9eW', 'дмитрий_смирнов@example.com', NOW() - INTERVAL '10 days');
 
 -- 2. Создание записей для каждого пользователя
 -- Записи для иван_петров (5 записей)
