@@ -1,6 +1,10 @@
 # Production конфигурация
 src/main/resources/application-production.properties
 
+# Environment variables
+.env1
+.env
+
 # Логи
 *.log
 

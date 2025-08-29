@@ -27,7 +27,7 @@ services:
         value: "UTC"
       # Hibernate настройки для production
       - key: SPRING_JPA_HIBERNATE_DDL_AUTO
-        value: "validate"
+        value: "create"
       # Отключаем SQL логирование в production
       - key: SPRING_JPA_SHOW_SQL
         value: "false"
