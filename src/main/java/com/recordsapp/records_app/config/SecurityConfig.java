@@ -20,6 +20,7 @@ public class SecurityConfig {
                 .requestMatchers("/css/**", "/js/**", "/images/**","/webjars/**", "/uploads/*").permitAll()
                 .requestMatchers("/", "/home", "/public/**").permitAll()
                 .requestMatchers("/login", "/register").permitAll()
+                .requestMatchers("/actuator/health", "/actuator/info").permitAll() // Разрешаем health check
                 .requestMatchers("/records/**").authenticated()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 // Все остальные запросы требуют аутентификации

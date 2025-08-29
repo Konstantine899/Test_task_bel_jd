@@ -1,0 +1,41 @@
+services:
+  - type: web
+    name: records-app
+    env: java
+    plan: starter
+    buildCommand: mvn clean package -DskipTests -Dspring-boot.repackage.mainClass=com.recordsapp.records_app.RecordsAppApplication
+    envVars:
+      # Профиль Spring Boot
+      - key: SPRING_PROFILES_ACTIVE
+        value: production
+      # Порт приложения
+      - key: PORT
+        value: 8080
+      # База данных PostgreSQL (реальные данные)
+      - key: DATABASE_URL
+        value: postgresql://app_user:l6UmnGeVbA7kIUklAViv8I5Ya0Qltwkv@dpg-d2oce9vfte5s73b5fldg-a.frankfurt-postgres.render.com:5432/records_db_wpyo
+      - key: DB_USERNAME
+        value: app_user
+      - key: DB_PASSWORD
+        value: l6UmnGeVbA7kIUklAViv8I5Ya0Qltwkv
+      # Оптимизация JVM для Render
+      - key: JAVA_OPTS
+        value: "-Xmx512m -Xms256m -XX:+UseG1GC -XX:+UseContainerSupport"
+      # Временная зона
+      - key: TZ
+        value: "UTC"
+    healthCheckPath: /actuator/health
+    autoDeploy: true
+    region: frankfurt
+    buildFilter:
+      paths:
+        - "src/**"
+        - "pom.xml"
+        - "Dockerfile"
+        - ".dockerignore"
+
+databases:
+  - name: records-db
+    databaseName: records_db_wpyo
+    user: app_user
+    plan: starter
