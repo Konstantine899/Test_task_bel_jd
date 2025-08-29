@@ -3,7 +3,8 @@ services:
     name: records-app
     env: java
     plan: starter
-    buildCommand: mvn clean package -DskipTests -Dspring-boot.repackage.mainClass=com.recordsapp.records_app.RecordsAppApplication
+    buildCommand: mvn clean package -DskipTests
+    startCommand: java -Dspring.profiles.active=production -jar target/records-app-0.0.1-SNAPSHOT.jar
     envVars:
       # Профиль Spring Boot
       - key: SPRING_PROFILES_ACTIVE
@@ -12,11 +13,11 @@ services:
       - key: PORT
         value: 8080
       # База данных PostgreSQL (реальные данные)
-      - key: DATABASE_URL
-        value: postgresql://app_user:l6UmnGeVbA7kIUklAViv8I5Ya0Qltwkv@dpg-d2oce9vfte5s73b5fldg-a.frankfurt-postgres.render.com:5432/records_db_wpyo
-      - key: DB_USERNAME
+      - key: SPRING_DATASOURCE_URL
+        value: jdbc:postgresql://dpg-d2oce9vfte5s73b5fldg-a.frankfurt-postgres.render.com:5432/records_db_wpyo
+      - key: SPRING_DATASOURCE_USERNAME
         value: app_user
-      - key: DB_PASSWORD
+      - key: SPRING_DATASOURCE_PASSWORD
         value: l6UmnGeVbA7kIUklAViv8I5Ya0Qltwkv
       # Оптимизация JVM для Render
       - key: JAVA_OPTS
@@ -24,9 +25,41 @@ services:
       # Временная зона
       - key: TZ
         value: "UTC"
+      # Hibernate настройки для production
+      - key: SPRING_JPA_HIBERNATE_DDL_AUTO
+        value: "validate"
+      # Отключаем SQL логирование в production
+      - key: SPRING_JPA_SHOW_SQL
+        value: "false"
+      # Отключаем SQL комментарии в production
+      - key: SPRING_JPA_PROPERTIES_HIBERNATE_USE_SQL_COMMENTS
+        value: "false"
+      # Оптимизация пула соединений для production
+      - key: SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE
+        value: "5"
+      # Включаем кэш Thymeleaf для production
+      - key: SPRING_THYMELEAF_CACHE
+        value: "true"
+      # Оптимизация логирования для production
+      - key: LOGGING_LEVEL_COM_RECORDSAPP
+        value: "WARN"
+      # Логирование для других компонентов
+      - key: LOGGING_LEVEL_ROOT
+        value: "WARN"
+      # Настройки для multipart
+      - key: SPRING_SERVLET_MULTIPART_LOCATION
+        value: "/tmp/records_app_uploads"
+      # Дополнительные настройки для production
+      - key: SPRING_JPA_PROPERTIES_HIBERNATE_JDBC_BATCH_SIZE
+        value: "20"
+      - key: SPRING_JPA_PROPERTIES_HIBERNATE_ORDER_INSERTS
+        value: "true"
+      - key: SPRING_JPA_PROPERTIES_HIBERNATE_ORDER_UPDATES
+        value: "true"
     healthCheckPath: /actuator/health
     autoDeploy: true
     region: frankfurt
+    buildTimeout: 1800
     buildFilter:
       paths:
         - "src/**"
