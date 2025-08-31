@@ -5,99 +5,369 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Мои записи - Records App</title>
     <style>
+        /* CSS Variables для единообразия */
+        :root {
+            --primary-color: #3498db;
+            --primary-hover: #2980b9;
+            --success-color: #27ae60;
+            --success-hover: #219a52;
+            --danger-color: #e74c3c;
+            --danger-hover: #c0392b;
+            --dark-color: #343a40;
+            --light-bg: #f8f9fa;
+            --white: #ffffff;
+            --border-color: #ddd;
+            --shadow: 0 2px 10px rgba(0,0,0,0.1);
+            --border-radius: 8px;
+            --transition: all 0.3s ease;
+        }
+
+        /* Reset и базовые стили */
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f8f9fa;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            line-height: 1.6;
         }
+
+        /* Основной контейнер с Grid */
         .container {
-            max-width: 1200px;
-            margin: 20px auto;
+            max-width: 1400px;
+            margin: 0 auto;
             padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
         }
+
+        /* Адаптивный заголовок с Flexbox */
         .header {
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
+            gap: 15px;
             align-items: center;
-            margin-bottom: 20px;
+            text-align: center;
+            background: var(--white);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
         }
+
+        .header h1 {
+            margin: 0;
+            color: var(--dark-color);
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        /* Кнопки с Flexbox */
         .btn {
-            padding: 10px 20px;
-            background: #3498db;
-            color: white;
+            padding: 12px 24px;
+            background: var(--primary-color);
+            color: var(--white);
             text-decoration: none;
-            border-radius: 4px;
+            border-radius: var(--border-radius);
             border: none;
             cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 120px;
         }
+
         .btn:hover {
-            background: #2980b9;
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
         }
+
         .btn-danger {
-            background: #e74c3c;
+            background: var(--danger-color);
         }
+
         .btn-danger:hover {
-            background: #c0392b;
+            background: var(--danger-hover);
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
         }
+
         .btn-success {
-            background: #27ae60;
+            background: var(--success-color);
         }
+
         .btn-success:hover {
-            background: #219a52;
+            background: var(--success-hover);
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
         }
+
+        /* Адаптивная таблица */
+        .table-container {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            overflow-x: auto;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
-            background: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background: var(--white);
+            min-width: 600px;
         }
+
         th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        th {
-            background: #343a40;
-            color: white;
-        }
-        tr:hover {
-            background: #f5f5f5;
-        }
-        .thumbnail {
-            max-width: 100px;
-            max-height: 100px;
-        }
-        .alert {
             padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 4px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
         }
+
+        th {
+            background: var(--dark-color);
+            color: var(--white);
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        tr:hover {
+            background: var(--light-bg);
+            transform: scale(1.01);
+            transition: var(--transition);
+        }
+
+        /* Адаптивные изображения */
+        .thumbnail {
+            max-width: 80px;
+            max-height: 80px;
+            border-radius: 6px;
+            object-fit: cover;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Адаптивные уведомления */
+        .alert {
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
         .alert-success {
             background: #d4edda;
             color: #155724;
-            border: 1px solid #c3e6cb;
+            border-left: 4px solid var(--success-color);
         }
+
         .alert-error {
             background: #f8d7da;
             color: #721c24;
-            border: 1px solid #f5c6cb;
+            border-left: 4px solid var(--danger-color);
         }
+
+        /* Адаптивная пагинация с Flexbox */
         .pagination {
             margin-top: 20px;
             display: flex;
             justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
         }
+
         .pagination a {
-            margin: 0 5px;
-            padding: 8px 12px;
-            border: 1px solid #ddd;
+            padding: 10px 15px;
+            border: 2px solid var(--border-color);
             text-decoration: none;
-            color: #3498db;
+            color: var(--primary-color);
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            min-width: 40px;
+            text-align: center;
         }
+
+        .pagination a:hover {
+            background: var(--primary-color);
+            color: var(--white);
+            border-color: var(--primary-color);
+        }
+
         .pagination a.active {
-            background: #3498db;
-            color: white;
+            background: var(--primary-color);
+            color: var(--white);
+            border-color: var(--primary-color);
+        }
+
+        .pagination a.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Адаптивные действия */
+        .actions {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-width: 150px;
+        }
+
+        .actions .btn {
+            min-width: 100px;
+            padding: 8px 16px;
+            font-size: 0.9rem;
+        }
+
+        /* Адаптивная навигация */
+        .navigation {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        /* Медиа-запросы для адаптивности */
+        @media (min-width: 768px) {
+            .header {
+                flex-direction: row;
+                justify-content: space-between;
+                text-align: left;
+            }
+
+            .actions {
+                flex-direction: row;
+                gap: 10px;
+            }
+
+            .actions .btn {
+                min-width: auto;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .header h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .container {
+                padding: 15px;
+                gap: 15px;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+                min-width: 100px;
+            }
+
+            th, td {
+                padding: 10px 8px;
+                font-size: 0.9rem;
+            }
+
+            .thumbnail {
+                max-width: 60px;
+                max-height: 60px;
+            }
+
+            .pagination {
+                gap: 5px;
+            }
+
+            .pagination a {
+                padding: 8px 12px;
+                font-size: 0.9rem;
+                min-width: 35px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 1.3rem;
+            }
+
+            .btn {
+                padding: 8px 16px;
+                font-size: 0.8rem;
+                min-width: 80px;
+            }
+
+            th, td {
+                padding: 8px 6px;
+                font-size: 0.8rem;
+            }
+
+            .actions {
+                min-width: 120px;
+            }
+
+            .actions .btn {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+                min-width: 70px;
+            }
+        }
+
+        /* Анимации */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .container > * {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        /* Улучшенные состояния фокуса */
+        .btn:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        /* Улучшенная доступность */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
         }
     </style>
 </head>
@@ -112,42 +382,46 @@
         <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
         <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Число</th>
-                    <th>Текст</th>
-                    <th>Дата</th>
-                    <th>Изображение</th>
-                    <th>Действия</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="record : ${recordsPage.content}">
-                    <td th:text="${record.number}">0</td>
-                    <td th:text="${record.text}">Текст записи</td>
-                    <td th:text="${#temporals.format(record.date, 'dd.MM.yyyy')}">01.01.2023</td>
-                    <td>
-                        <img th:if="${record.imagePath}" 
-                             th:src="@{'/uploads/' + ${record.imagePath}}" 
-                             class="thumbnail" alt="Изображение записи">
-                        <span th:unless="${record.imagePath}">Нет изображения</span>
-                    </td>
-                    <td>
-                        <a th:href="@{'/records/edit/' + ${record.id}}" class="btn">Редактировать</a>
-                        <form th:action="@{'/records/delete/' + ${record.id}}" method="post" style="display: inline;">
-                            <button type="submit" class="btn btn-danger" 
-                                    onclick="return confirm('Вы уверены, что хотите удалить эту запись?')">
-                                Удалить
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-                <tr th:if="${recordsPage.empty}">
-                    <td colspan="5" style="text-align: center;">Записей не найдено</td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Число</th>
+                        <th>Текст</th>
+                        <th>Дата</th>
+                        <th>Изображение</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="record : ${recordsPage.content}">
+                        <td th:text="${record.number}">0</td>
+                        <td th:text="${record.text}">Текст записи</td>
+                        <td th:text="${#temporals.format(record.date, 'dd.MM.yyyy')}">01.01.2023</td>
+                        <td>
+                            <img th:if="${record.imagePath}" 
+                                 th:src="@{'/uploads/' + ${record.imagePath}}" 
+                                 class="thumbnail" alt="Изображение записи">
+                            <span th:unless="${record.imagePath}">Нет изображения</span>
+                        </td>
+                        <td>
+                            <div class="actions">
+                                <a th:href="@{'/records/edit/' + ${record.id}}" class="btn">Редактировать</a>
+                                <form th:action="@{'/records/delete/' + ${record.id}}" method="post" style="display: inline;">
+                                    <button type="submit" class="btn btn-danger" 
+                                            onclick="return confirm('Вы уверены, что хотите удалить эту запись?')">
+                                        Удалить
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr th:if="${recordsPage.empty}">
+                        <td colspan="5" style="text-align: center;">Записей не найдено</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
         <!-- Пагинация -->
         <div class="pagination" th:if="${recordsPage.totalPages > 1}">
@@ -163,7 +437,7 @@
                th:class="${recordsPage.last} ? 'disabled' : ''">»</a>
         </div>
 
-        <div style="margin-top: 20px;">
+        <div class="navigation">
             <a th:href="@{/dashboard}" class="btn">← Назад в панель управления</a>
         </div>
     </div>
