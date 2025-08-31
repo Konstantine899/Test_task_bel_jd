@@ -2,14 +2,94 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="ru">
 <body th:fragment="footer">
   <style>
-    .footer { background:#0b1220; color:#94a3b8; border-top:1px solid rgba(255,255,255,0.08); padding:16px 20px; display:flex; justify-content:space-between; }
-    .muted { color:#64748b; }
+    /* CSS Variables для единообразия */
+    :root {
+        --primary-color: #3498db;
+        --primary-hover: #2980b9;
+        --dark-bg: #0b1220;
+        --text-color: #94a3b8;
+        --muted-color: #64748b;
+        --border-color: rgba(255,255,255,0.08);
+        --transition: all 0.3s ease;
+    }
+
+    /* Адаптивный футер с Flexbox */
+    .footer { 
+        background: var(--dark-bg); 
+        color: var(--text-color); 
+        border-top: 1px solid var(--border-color); 
+        padding: 20px; 
+        display: flex; 
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-top: auto;
+    }
+
+    .footer > div {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .muted { 
+        color: var(--muted-color);
+        font-weight: 500;
+    }
+
+    /* Медиа-запросы для адаптивности */
+    @media (min-width: 768px) {
+        .footer {
+            padding: 25px 30px;
+            gap: 20px;
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .footer {
+            padding: 30px 40px;
+            gap: 25px;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .footer {
+            padding: 15px 20px;
+            flex-direction: column;
+            text-align: center;
+            gap: 10px;
+        }
+
+        .footer > div {
+            justify-content: center;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .footer {
+            padding: 12px 15px;
+            gap: 8px;
+        }
+    }
+
+    /* Анимации */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .footer > * {
+        animation: fadeIn 0.6s ease-out;
+    }
   </style>
   <div class="footer">
     <div>
       © <span th:text="${#temporals.format(#temporals.createNow(), 'yyyy')}">2025</span> <span class="muted">Records App</span>
     </div>
-    <div></div>
+    <div>
+      <span class="muted">Создано с ❤️ на Spring Boot</span>
+    </div>
   </div>
 </body>
 </html>

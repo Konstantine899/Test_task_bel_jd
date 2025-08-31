@@ -5,9 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Регистрация - Records App</title>
     <style>
-        /* Стили можно вынести в отдельный CSS файл, но для наглядности оставим здесь */
+        /* CSS Variables для единообразия */
+        :root {
+            --primary-color: #3498db;
+            --primary-hover: #2980b9;
+            --success-color: #27ae60;
+            --success-hover: #219a52;
+            --danger-color: #e74c3c;
+            --danger-hover: #c0392b;
+            --dark-color: #333;
+            --light-bg: #f8f9fa;
+            --white: #ffffff;
+            --border-color: #ddd;
+            --shadow: 0 15px 35px rgba(0,0,0,0.1);
+            --border-radius: 10px;
+            --transition: all 0.3s ease;
+        }
+
+        /* Reset и базовые стили */
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             margin: 0;
             padding: 0;
@@ -15,85 +36,262 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            line-height: 1.6;
         }
+
+        /* Адаптивный контейнер регистрации с Flexbox */
         .register-container {
-            background: white;
+            background: var(--white);
             padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
             width: 100%;
-            max-width: 400px;
+            max-width: 450px;
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
         }
+
+        /* Адаптивный заголовок с Flexbox */
         h1 {
             text-align: center;
-            color: #333;
-            margin-bottom: 30px;
+            color: var(--dark-color);
+            margin: 0;
+            font-size: 2.2rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
+
+        /* Адаптивные группы форм с Flexbox */
         .form-group {
-            margin-bottom: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
+
         label {
             display: block;
-            margin-bottom: 5px;
             color: #555;
-            font-weight: bold;
+            font-weight: 600;
+            font-size: 1rem;
         }
+
+        /* Адаптивные поля ввода */
         input[type="text"],
         input[type="password"],
         input[type="email"] {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 5px;
+            padding: 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
             font-size: 16px;
-            box-sizing: border-box;
+            transition: var(--transition);
+            background: var(--white);
         }
+
         input:focus {
-            border-color: #3498db;
+            border-color: var(--primary-color);
             outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
         }
+
+        /* Адаптивная кнопка регистрации */
         button {
             width: 100%;
-            padding: 12px;
-            background: #3498db;
-            color: white;
+            padding: 15px;
+            background: var(--primary-color);
+            color: var(--white);
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
+
         button:hover {
-            background: #2980b9;
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.3);
         }
+
+        /* Адаптивные уведомления с Flexbox */
         .error {
             background: #ffe6e6;
-            color: #d63031;
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 20px;
+            color: var(--danger-color);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 0;
             text-align: center;
-            border-left: 4px solid #d63031;
+            border-left: 4px solid var(--danger-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-weight: 500;
         }
+
         .success {
             background: #e8f5e8;
-            color: #27ae60;
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 20px;
+            color: var(--success-color);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 0;
             text-align: center;
-            border-left: 4px solid #27ae60;
+            border-left: 4px solid var(--success-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-weight: 500;
         }
+
+        /* Адаптивные ссылки с Flexbox */
         .back-link {
             text-align: center;
-            margin-top: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
         }
+
         .back-link a {
-            color: #3498db;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+
+        .back-link a:hover {
+            background: rgba(52, 152, 219, 0.1);
             text-decoration: none;
         }
-        .back-link a:hover {
-            text-decoration: underline;
+
+        /* Медиа-запросы для адаптивности */
+        @media (min-width: 768px) {
+            .register-container {
+                max-width: 500px;
+                padding: 50px;
+                gap: 30px;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .back-link {
+                flex-direction: row;
+                gap: 20px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .register-container {
+                max-width: 550px;
+                padding: 60px;
+                gap: 35px;
+            }
+
+            h1 {
+                font-size: 2.8rem;
+            }
+        }
+
+        @media (max-width: 767px) {
+            body {
+                padding: 20px;
+            }
+
+            .register-container {
+                margin: 10px;
+                padding: 30px;
+                gap: 20px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            input[type="text"],
+            input[type="password"],
+            input[type="email"] {
+                padding: 12px;
+                font-size: 16px;
+            }
+
+            button {
+                padding: 12px;
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            .register-container {
+                margin: 5px;
+                padding: 25px;
+                gap: 15px;
+            }
+
+            h1 {
+                font-size: 1.6rem;
+            }
+
+            input[type="text"],
+            input[type="password"],
+            input[type="email"] {
+                padding: 10px;
+                font-size: 16px;
+            }
+
+            button {
+                padding: 10px;
+                font-size: 16px;
+            }
+        }
+
+        /* Анимации */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .register-container > * {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        /* Улучшенные состояния фокуса */
+        button:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        /* Улучшенная доступность */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
         }
     </style>
 </head>
@@ -126,7 +324,7 @@
         </form>
 
         <div class="back-link">
-            <a th:href="@{/login}">Уже есть аккаунт? Войти</a> | 
+            <a th:href="@{/login}">Уже есть аккаунт? Войти</a>
             <a th:href="@{/}">На главную</a>
         </div>
     </div>

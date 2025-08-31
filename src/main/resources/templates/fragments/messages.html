@@ -1,9 +1,172 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ru">
 <body>
+  <style>
+    /* CSS Variables для единообразия */
+    :root {
+        --primary-color: #3498db;
+        --primary-hover: #2980b9;
+        --success-color: #27ae60;
+        --success-hover: #219a52;
+        --danger-color: #e74c3c;
+        --danger-hover: #c0392b;
+        --warning-color: #f39c12;
+        --warning-hover: #e67e22;
+        --info-color: #3498db;
+        --info-hover: #2980b9;
+        --white: #ffffff;
+        --border-radius: 8px;
+        --shadow: 0 2px 10px rgba(0,0,0,0.1);
+        --transition: all 0.3s ease;
+    }
+
+    /* Адаптивные уведомления с Flexbox */
+    .alert {
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: var(--border-radius);
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        box-shadow: var(--shadow);
+        border-left: 4px solid;
+        transition: var(--transition);
+        animation: slideIn 0.4s ease-out;
+    }
+
+    .alert:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+
+    .alert-success {
+        background: #d4edda;
+        color: #155724;
+        border-left-color: var(--success-color);
+    }
+
+    .alert-error {
+        background: #f8d7da;
+        color: #721c24;
+        border-left-color: var(--danger-color);
+    }
+
+    .alert-warning {
+        background: #fff3cd;
+        color: #856404;
+        border-left-color: var(--warning-color);
+    }
+
+    .alert-info {
+        background: #d1ecf1;
+        color: #0c5460;
+        border-left-color: var(--info-color);
+    }
+
+    /* Иконки для уведомлений */
+    .alert::before {
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+
+    .alert-success::before {
+        content: "✅";
+    }
+
+    .alert-error::before {
+        content: "❌";
+    }
+
+    .alert-warning::before {
+        content: "⚠️";
+    }
+
+    .alert-info::before {
+        content: "ℹ️";
+    }
+
+    /* Медиа-запросы для адаптивности */
+    @media (min-width: 768px) {
+        .alert {
+            padding: 25px;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .alert {
+            padding: 30px;
+            margin-bottom: 30px;
+            font-size: 1.2rem;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .alert {
+            padding: 15px;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+            gap: 10px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .alert {
+            padding: 12px;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+            gap: 8px;
+        }
+    }
+
+    /* Анимации */
+    @keyframes slideIn {
+        from { 
+            opacity: 0; 
+            transform: translateX(-20px); 
+        }
+        to { 
+            opacity: 1; 
+            transform: translateX(0); 
+        }
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .alert {
+        animation: slideIn 0.4s ease-out, fadeIn 0.6s ease-out;
+    }
+
+    /* Улучшенные состояния фокуса */
+    .alert:focus {
+        outline: 2px solid var(--primary-color);
+        outline-offset: 2px;
+    }
+
+    /* Улучшенная доступность */
+    .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+  </style>
+
   <div th:fragment="flash">
     <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
     <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+    <div th:if="${warning}" class="alert alert-warning" th:text="${warning}"></div>
+    <div th:if="${info}" class="alert alert-info" th:text="${info}"></div>
   </div>
 </body>
 </html>
