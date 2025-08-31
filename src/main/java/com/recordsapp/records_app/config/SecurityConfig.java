@@ -33,6 +33,7 @@ public class SecurityConfig {
                 .failureUrl("/login?error=true") // Перенаправление при ошибке входа
                 .permitAll() // Разрешаем всем доступ к странице логина
             )
+
             .logout(logout -> logout
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout")) // URL для выхода
                 .logoutSuccessUrl("/login?logout=true") // Перенаправление после выхода
@@ -50,4 +51,6 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+
 }

@@ -25,9 +25,16 @@ services:
       # Временная зона
       - key: TZ
         value: "UTC"
-      # Hibernate настройки для production
+      # Hibernate настройки для production (ИСПРАВЛЕНО: убран конфликт)
       - key: SPRING_JPA_HIBERNATE_DDL_AUTO
-        value: "create"
+        value: "none"
+      # SQL инициализация (ДОБАВЛЕНО: для schema.sql и data.sql)
+      - key: SPRING_SQL_INIT_MODE
+        value: "always"
+      - key: SPRING_SQL_INIT_SCHEMA_LOCATIONS
+        value: "classpath:db/schema.sql"
+      - key: SPRING_SQL_INIT_DATA_LOCATIONS
+        value: "classpath:db/data.sql"
       # Отключаем SQL логирование в production
       - key: SPRING_JPA_SHOW_SQL
         value: "false"
@@ -42,7 +49,10 @@ services:
         value: "true"
       # Оптимизация логирования для production
       - key: LOGGING_LEVEL_COM_RECORDSAPP
-        value: "WARN"
+        value: "INFO"
+      # ДОБАВЛЕНО: Включаем логирование Spring Security для диагностики
+      - key: LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY
+        value: "DEBUG"
       # Логирование для других компонентов
       - key: LOGGING_LEVEL_ROOT
         value: "WARN"

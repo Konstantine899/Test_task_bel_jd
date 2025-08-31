@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BCrypt Hash Tester</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bcryptjs/2.4.3/bcrypt.min.js"></script>
+</head>
+<body>
+    <h1>BCrypt Hash Tester</h1>
+    
+    <div>
+        <label>Password: <input type="text" id="password" value="password123"></label>
+        <button onclick="generateHash()">Generate Hash</button>
+    </div>
+    
+    <div>
+        <label>Hash to verify: <input type="text" id="hash" value="$2a$10$Y7IbSy4gTEsUElFoMnoVkeCZfkf1WtxQ40uVock.JMd4vSYIMyD82" style="width: 400px;"></label>
+        <button onclick="verifyHash()">Verify Hash</button>
+    </div>
+    
+    <div id="result"></div>
+    
+    <script>
+        function generateHash() {
+            const password = document.getElementById('password').value;
+            const hash = bcrypt.hashSync(password, 10);
+            document.getElementById('result').innerHTML = '<h3>Generated Hash:</h3><p>' + hash + '</p>';
+        }
+        
+        function verifyHash() {
+            const password = document.getElementById('password').value;
+            const hash = document.getElementById('hash').value;
+            const isValid = bcrypt.compareSync(password, hash);
+            document.getElementById('result').innerHTML = '<h3>Verification Result:</h3><p>Hash is ' + (isValid ? 'VALID' : 'INVALID') + ' for password "' + password + '"</p>';
+        }
+    </script>
+</body>
+</html>

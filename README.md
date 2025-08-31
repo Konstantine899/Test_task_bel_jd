@@ -43,9 +43,8 @@ src/main/java/com/recordsapp/records_app/
 │   ├── RecordRepository.java  # Репозиторий записей
 │   └── UserRepository.java    # Репозиторий пользователей
 ├── service/                   # Бизнес-логика
-│   ├── RecordService.java     # Сервис для работы с записями
-│   ├── UserDetailsServiceImpl.java # Сервис аутентификации
-│   └── MigrationService.java  # Сервис миграций БД
+  │   ├── RecordService.java     # Сервис для работы с записями
+  │   └── UserDetailsServiceImpl.java # Сервис аутентификации
 └── RecordsAppApplication.java # Главный класс приложения
 ```
 
@@ -154,7 +153,7 @@ server.port=8081
 ### Автоматическая инициализация
 При запуске приложения автоматически:
 1. **Hibernate** создает таблицы (если их нет)
-2. **MigrationService** заполняет тестовыми данными (если таблицы пусты)
+2. **Spring Boot SQL инициализация** выполняет `schema.sql` и `data.sql`
 
 ### Тестовые данные
 Создаются автоматически при первом запуске:
@@ -281,10 +280,8 @@ logging.level.org.springframework.security=DEBUG
 src/main/resources/
 ├── application.properties      # Основная конфигурация
 ├── db/                        # Скрипты базы данных
-│   ├── migration/             # Миграции
-│   │   └── V2__fill_test_data.sql
-│   ├── schema.sql             # Схема БД (резервная)
-│   └── data.sql               # Тестовые данные (резервные)
+│   ├── schema.sql             # Схема БД (создание таблиц)
+│   └── data.sql               # Тестовые данные (заполнение)
 ├── static/                    # Статические файлы
 │   ├── css/                   # Стили
 │   ├── js/                    # JavaScript

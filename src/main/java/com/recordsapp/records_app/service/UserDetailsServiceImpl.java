@@ -35,6 +35,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден: " + username));
 
+        // ДОБАВЛЕНО: Логирование для диагностики
+        System.out.println("=== ДИАГНОСТИКА АУТЕНТИФИКАЦИИ ===");
+        System.out.println("Username: " + user.getUsername());
+        System.out.println("Password hash: " + user.getPassword());
+        System.out.println("Email: " + user.getEmail());
+        System.out.println("Created at: " + user.getCreatedAt());
+        System.out.println("ID: " + user.getId());
+        System.out.println("=====================================");
+
         // Преобразуем нашу сущность User в UserDetails, который понимает Spring Security
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getUsername())
